@@ -17,10 +17,12 @@ EMPTY_CONFIG_CONTENT_DIC = {GITHUB_API_TOKEN_KEY: "", PIVOTAL_API_TOKEN_KEY: "",
                             SLACK_INTEGRATION_URL_KEY: ""}
 
 REPO_PATH = ""  # for debug purposes
-# PRH_CONFIG_PATH = "/usr/local/etc"
-PRH_CONFIG_PATH = "config_file_path"
+PRH_CONFIG_PATH = "/usr/local/etc"
+# PRH_CONFIG_PATH = "config_file_path"
+# PRH_CONFIG_PATH = "~/"
 
 PRH_CONFIG_FILE_NAME = "/prh_config"
+# PRH_CONFIG_FILE_NAME = ".prh_config"
 GIT_CONFIG_PATH = "/config"
 GIT_FILE_PATH = ".git"
 APP_VERSION = "2.2.0"
@@ -393,6 +395,8 @@ def create_pull_request(from_branch, to_branch, user_input):
         description = name = ""
         if "description" in story:
             description = story["description"]
+        else:
+            description = ""
         if "name" in story:
             name = story["name"]
         pr_body = pr_body + "\n\n**Story:** [" + name + "](" + user_input.tracker_urls[i] + ")\n" + description
@@ -446,8 +450,9 @@ def create_pull_request(from_branch, to_branch, user_input):
         for e in res.json()["errors"]:
             print "Error:", e["message"]
         return "Failed to create pull-request from " + from_branch + " to " + to_branch
-
-
+    """
+    curl -H "Authorization: token ebb14bd00aaa1828b226a454eeee7fe18d6c7aaf" https://api.github.com/repos/subvertical/verticalchange/pulls
+    """
 def github_api_post(api, data):
     headers = {"Authorization": "token " + read_from_config_file()[GITHUB_API_TOKEN_KEY]}
     response = Service(header=headers).post(api, data=json.dumps(data))
@@ -715,14 +720,14 @@ def setup():
     if os.path.isdir(git_dir):
         with open(git_dir + GIT_CONFIG_PATH) as git_config:
             config_string = git_config.read()
-            remotes = re.findall('\[remote "(.*)"\].*\n.*url = (git.*\.git).*', config_string)
+            remotes = re.findall('\[remote "(.*)"\].*\n.*url = (https.*\.git).*', config_string)
             # submodules = re.findall('\[submodule "(.*)"\]\n.*url = (.*).*', config_string)
     else:
         print "You should run prh from a git repository directory"
         return
 
     if not remotes:
-        print "Could not find origin url in the .git/config file.\nYour origin URL should be in form of git.*\.git"
+        print "Could not find origin url in the .git/config file.\nYour origin URL should be in form of https.*\.git"
         return
 
     write_to_setup_file(remotes)
@@ -737,18 +742,20 @@ def run_popen(command):
 
 def get_owner(git_url):
     """
-    >>> get_owner("git@github.com:doximity/Android.git")
+    >>> get_owner("https://github.com/subvertical/verticalchange.git")
     'doximity'
     """
-    return git_url.split(":")[-1].split("/")[0]
+    print git_url
+    return git_url.split("/")[3]
 
 
 def get_repo(git_url):
     """
-    >>> get_repo("git@github.com:doximity/Android.git")
+    >>> get_repo("https://github.com/subvertical/verticalchange.git")
     'Android'
     """
-    return git_url.split(":")[-1].split("/")[1].split(".")[0]
+    print git_url
+    return git_url.split("/")[4].split(".git")[0]
 
 
 def write_to_setup_file(remotes):
