@@ -385,6 +385,9 @@ def create_pull_request(from_branch, to_branch, user_input):
 
     if not user_input.pr_title:
         pr_title = get_head().replace("_", " ")
+    else:
+        pr_title = user_input.pr_title
+
     if not user_input.pr_body:
         pr_body = DEFAULT_PR_BODY
     else:
