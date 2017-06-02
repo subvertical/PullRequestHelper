@@ -2,3 +2,5 @@
 prh_config.py
 *.pyc
 .prh
+.build
+.dist
