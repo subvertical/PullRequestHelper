@@ -699,6 +699,7 @@ def setup():
     prh_config = read_from_config_file()
     github_token = prh_config[GITHUB_API_TOKEN_KEY]
     pivotal_token = prh_config[PIVOTAL_API_TOKEN_KEY]
+
     # global setup
     config_changed = 0
     if not github_token:
@@ -716,7 +717,6 @@ def setup():
                               DEFAULT_COMMIT_MESSAGE_KEY: "Commit", DEFAULT_PULL_REQUEST_BODY_KEY: "",
                               SLACK_INTEGRATION_URL_KEY: ""})
     # local setup
-
     git_dir = get_repo_git_dir()
     if os.path.isdir(git_dir):
         with open(git_dir + GIT_CONFIG_PATH) as git_config:
@@ -744,7 +744,7 @@ def run_popen(command):
 def get_owner(git_url):
     """
     >>> get_owner("https://github.com/subvertical/verticalchange.git")
-    'doximity'
+    'subvertical'
     """
     print git_url
     return git_url.split("/")[3]
@@ -753,7 +753,7 @@ def get_owner(git_url):
 def get_repo(git_url):
     """
     >>> get_repo("https://github.com/subvertical/verticalchange.git")
-    'Android'
+    'verticalchange'
     """
     print git_url
     return git_url.split("/")[4].split(".git")[0]
