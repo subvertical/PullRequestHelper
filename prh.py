@@ -455,7 +455,7 @@ def create_pull_request(from_branch, to_branch, user_input):
             print "Error:", e["message"]
         return "Failed to create pull-request from " + from_branch + " to " + to_branch
     """
-    curl -H "Authorization: token ebb14bd00aaa1828b226a454eeee7fe18d6c7aaf" https://api.github.com/repos/subvertical/verticalchange/pulls
+    curl -H "Authorization: token 04932f225551fd79449e618dd5bb1fb9fe285acb" https://api.github.com/repos/subvertical/verticalchange/pulls
     """
 def github_api_post(api, data):
     headers = {"Authorization": "token " + read_from_config_file()[GITHUB_API_TOKEN_KEY]}
