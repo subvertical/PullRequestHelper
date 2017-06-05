@@ -429,7 +429,13 @@ def create_pull_request(from_branch, to_branch, user_input):
         "head": from_branch,
         "base": to_branch
     }
+
+    print data
+    print api
+
     res = github_api_post(api, data)
+
+    print res
 
     if res.status_code == 201:
         pr_url = res.json()["html_url"]
@@ -457,6 +463,8 @@ def create_pull_request(from_branch, to_branch, user_input):
         for e in res.json()["errors"]:
             print "Error:", e["message"]
         return "Failed to create pull-request from " + from_branch + " to " + to_branch
+
+
 def github_api_post(api, data):
     headers = {"Authorization": "token " + read_from_config_file()[GITHUB_API_TOKEN_KEY]}
     response = Service(header=headers).post(api, data=json.dumps(data))
