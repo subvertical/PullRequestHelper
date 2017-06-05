@@ -349,6 +349,9 @@ def push(branch_name):
     if local_only_is_on:
         return NO_ERROR
 
+    if branch_name == 'master':
+        return "Push to origin/master is blocked"
+
     command = ["git", "push", "--set-upstream", "origin", branch_name]
     res = run_command(command)
     if res:
@@ -480,6 +483,9 @@ def verify_file_paths(file_paths):
 
 
 def verify_parent_in_origin(origin):
+    if origin == 'master':
+        return
+
     if not os.path.exists(get_repo_git_dir() + "/refs/remotes/origin/%s" % origin):
         print "Push the parent branch '%s' to origin before using PRH" % origin
         return 1
