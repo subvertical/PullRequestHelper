@@ -346,6 +346,9 @@ def commit(user_input):
 
 
 def push(branch_name):
+    print 'push'
+    print branch_name
+    print '----'
     if local_only_is_on:
         return NO_ERROR
 
@@ -454,11 +457,11 @@ def create_pull_request(from_branch, to_branch, user_input):
                             print "error with pivotal, marking story as finished"
         return NO_ERROR
     else:
-        existing_pr_url = find_existing_pr(owner, repo, from_branch, to_branch)
-        if existing_pr_url:
-            print existing_pr_url
-            launch_browser(existing_pr_url)
-            return NO_ERROR
+        # existing_pr_url = find_existing_pr(owner, repo, from_branch, to_branch)
+        # if existing_pr_url:
+        #     print existing_pr_url
+        #     launch_browser(existing_pr_url)
+        #     return NO_ERROR
 
         for e in res.json()["errors"]:
             print "Error:", e["message"]
