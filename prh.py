@@ -327,7 +327,7 @@ def has_git_editor_set():
     return run_command(command, 1)
 
 
-def commit(user_input):
+def commit(user_input, just_pr):
     if not user_input.commit_message:
         for story_id in user_input.tracker_ids:
             if story_id:
@@ -340,15 +340,16 @@ def commit(user_input):
         command = ["git", "commit", "-e", "-m", str(user_input.commit_message)]
     else:
         command = ["git", "commit", "-m", str(user_input.commit_message)]
+
+    if just_pr:
+        command.append(["--allow-empty", "-m", "[ci skip]"])
+
     res = run_command(command)
     if res:
         return "Failed to commit changes"
 
 
 def push(branch_name):
-    print 'push'
-    print branch_name
-    print '----'
     if local_only_is_on:
         return NO_ERROR
 
@@ -551,7 +552,7 @@ def parse_commit_message(commit_message, full_urls, story_ids):
 def process_from_child(origin, new, add_all, just_pr, file_paths, user_input):
     return create_branch(new) \
            or (not just_pr and add_changes(add_all, file_paths)) \
-           or (not just_pr and commit(user_input)) \
+           or commit(user_input,just_pr) \
            or push(new) \
            or create_pull_request(new, origin, user_input) \
            or (stay_is_on and checkout(origin)) \
@@ -560,7 +561,7 @@ def process_from_child(origin, new, add_all, just_pr, file_paths, user_input):
 
 def process_to_parent(origin, parent, add_all, just_pr, file_paths, user_input):
     return (not just_pr and add_changes(add_all, file_paths)) \
-           or (not just_pr and commit(user_input)) \
+           or (not just_pr and commit(user_input,just_pr)) \
            or push(origin) \
            or create_pull_request(origin, parent, user_input) \
            or "Done"
