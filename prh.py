@@ -342,7 +342,7 @@ def commit(user_input, just_pr):
         command = ["git", "commit", "-m", str(user_input.commit_message)]
 
     if just_pr:
-        command.append(["--allow-empty", "-m", "[ci skip]"])
+        command.extend(["--allow-empty", "-m", "[ci skip]"])
 
     res = run_command(command)
     if res:
