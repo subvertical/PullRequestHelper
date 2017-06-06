@@ -312,7 +312,7 @@ def create_branch(branch_name):
             git_reset_head()
             if error:
                 print error
-           #     return "Error applying changes"
+                return "Error applying changes"
 
             if ask_user(">>> Proceed with committing and creating PR (y/n)?"):
                 return "Aborted"
@@ -356,7 +356,7 @@ def push(branch_name):
     if branch_name == 'master':
         return "Push to origin/master is blocked"
 
-    command = ["git", "push", "--set-upstream", "origin", branch_name]
+    command = ["git", "push", "origin", str(branch_name + ':' + branch_name), "--set-upstream"]
     res = run_command(command)
     if res:
         return "Failed to push the commit to origin"
