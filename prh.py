@@ -6,7 +6,6 @@ import re
 import subprocess
 import sys
 
-
 SLACK_INTEGRATION_URL_KEY = "SLACK_INTEGRATION_URL"
 DEFAULT_PULL_REQUEST_BODY_KEY = "DEFAULT_PULL_REQUEST_BODY"
 DEFAULT_COMMIT_MESSAGE_KEY = "DEFAULT_COMMIT_MESSAGE"
@@ -213,7 +212,6 @@ def add_all():
 
 
 def get_head(current_path=""):
-    # read the head from git dir
     with open(get_repo_git_dir(current_path) + "/HEAD") as f:
         ref = f.read()
         return ref.split("/")[-1].strip()
@@ -410,7 +408,7 @@ def create_pull_request(from_branch, to_branch, user_input):
             description = ""
         if "name" in story:
             name = story["name"]
-        pr_body = pr_body + "\n\n**Story:** [" + name + "](" + user_input.tracker_urls[i] + ")\n" + description
+        pr_body = pr_body + "\n\n**Tracker Story:** [" + name + "](" + user_input.tracker_urls[i] + ")\n" + description
 
     pr_template = read_pr_template()
     if pr_template:
@@ -434,12 +432,7 @@ def create_pull_request(from_branch, to_branch, user_input):
         "base": to_branch
     }
 
-    print data
-    print api
-
     res = github_api_post(api, data)
-
-    print res
 
     if res.status_code == 201:
         pr_url = res.json()["html_url"]
@@ -552,7 +545,7 @@ def parse_commit_message(commit_message, full_urls, story_ids):
 def process_from_child(origin, new, add_all, just_pr, file_paths, user_input):
     return create_branch(new) \
            or (not just_pr and add_changes(add_all, file_paths)) \
-           or commit(user_input,just_pr) \
+           or commit(user_input, just_pr) \
            or push(new) \
            or create_pull_request(new, origin, user_input) \
            or (stay_is_on and checkout(origin)) \
@@ -561,7 +554,7 @@ def process_from_child(origin, new, add_all, just_pr, file_paths, user_input):
 
 def process_to_parent(origin, parent, add_all, just_pr, file_paths, user_input):
     return (not just_pr and add_changes(add_all, file_paths)) \
-           or (not just_pr and commit(user_input,just_pr)) \
+           or (not just_pr and commit(user_input, just_pr)) \
            or push(origin) \
            or create_pull_request(origin, parent, user_input) \
            or "Done"
