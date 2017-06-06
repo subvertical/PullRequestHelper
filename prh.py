@@ -312,8 +312,8 @@ def create_branch(branch_name):
             #     print error
             #     return "Error applying changes"
 
-            if ask_user(">>> Proceed with committing and creating PR (y/n)?"):
-                return "Aborted"
+            # if ask_user(">>> Proceed with committing and creating PR (y/n)?"):
+            #     return "Aborted"
         else:
             return "Failed to create the new branch"
     else:
