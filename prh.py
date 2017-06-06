@@ -446,16 +446,16 @@ def create_pull_request(from_branch, to_branch, user_input):
                     if post_pivotal_comment(project_id, user_input.tracker_ids[i], "PR: " + pr_url):
                         print "error with pivotal, commenting pr link"
 
-                    if ask_user("Mark story with id=" + user_input.tracker_ids[i] + " as finished?(y/n)"):
-                        if mark_pivotal_story_finished(project_id, user_input.tracker_ids[i]):
-                            print "error with pivotal, marking story as finished"
+                    # if ask_user("Mark story with id=" + user_input.tracker_ids[i] + " as finished?(y/n)"):
+                    #     if mark_pivotal_story_finished(project_id, user_input.tracker_ids[i]):
+                    #         print "error with pivotal, marking story as finished"
         return NO_ERROR
     else:
-        # existing_pr_url = find_existing_pr(owner, repo, from_branch, to_branch)
-        # if existing_pr_url:
-        #     print existing_pr_url
-        #     launch_browser(existing_pr_url)
-        #     return NO_ERROR
+        existing_pr_url = find_existing_pr(owner, repo, from_branch, to_branch)
+        if existing_pr_url:
+            print existing_pr_url
+            launch_browser(existing_pr_url)
+            return NO_ERROR
 
         for e in res.json()["errors"]:
             print "Error:", e["message"]
