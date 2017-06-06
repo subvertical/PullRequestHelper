@@ -306,11 +306,11 @@ def create_branch(branch_name):
             add_all()
             git_stash()
             checkout(branch_name)
-            error = git_stash_apply()
+            git_stash_apply()
             git_reset_head()
-            if error:
-                print error
-                return "Error applying changes"
+            # if error:
+            #     print error
+            #     return "Error applying changes"
 
             if ask_user(">>> Proceed with committing and creating PR (y/n)?"):
                 return "Aborted"
