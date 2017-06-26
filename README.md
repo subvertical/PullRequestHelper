@@ -20,24 +20,20 @@ story finished and link PR to the story.
 ## Install
 Now you can install prh simply by using
 
-```
-brew tap kayvannj/prh
-brew install prh
+cp dist/prh /usr/local/bin/prh
 ```
 and you are good to go 🎉
 
 In the first run, `prh` is going to setup some configurations. The setup is also accessable from `prh setup` command
-
-## Update
 ```
-brew unlink prh
-brew install prh
-```
-
 #### Where to find PivotalTracker API token from?
 https://www.pivotaltracker.com/help/articles/api_token/
 #### What permissions are needed for GitHub Api token?
 Only repo permissions
+
+#### References
+https://engineering.doximity.com/articles/pull-request-helper
+https://github.com/kayvannj/PullRequestHelper
 
 # Usage
 ```

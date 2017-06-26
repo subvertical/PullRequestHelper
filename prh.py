@@ -408,7 +408,8 @@ def create_pull_request(from_branch, to_branch, user_input):
             description = ""
         if "name" in story:
             name = story["name"]
-        pr_body = pr_body + "\n\n**Tracker Story:** [" + name + "](" + user_input.tracker_urls[i] + ")\n" + description
+        # pr_body = pr_body + "\n\n**Tracker Story:** [" + name + "](" + user_input.tracker_urls[i] + ")\n" + description
+        pr_body = pr_body + "\n\n**Tracker Story:** [" + name + "](" + user_input.tracker_urls[i] + ")\n"
 
     pr_template = read_pr_template()
     if pr_template:
